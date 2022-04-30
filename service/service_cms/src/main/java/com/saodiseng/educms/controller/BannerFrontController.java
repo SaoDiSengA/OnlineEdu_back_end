@@ -32,6 +32,6 @@ public class BannerFrontController {
     @GetMapping("getAllBanner")
     public R getAllBanner(){
         List<CrmBanner> list = bannerService.selectAllBanner();    //单独写service是为了redis方便，也可以直接用mybatis的方法
-        return R.ok();
+        return R.ok().data("list",list);
     }
 }
