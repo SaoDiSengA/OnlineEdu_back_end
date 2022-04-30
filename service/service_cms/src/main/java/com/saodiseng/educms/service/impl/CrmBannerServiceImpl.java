@@ -1,5 +1,6 @@
 package com.saodiseng.educms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.saodiseng.educms.entity.CrmBanner;
 import com.saodiseng.educms.mapper.CrmBannerMapper;
 import com.saodiseng.educms.service.CrmBannerService;
@@ -21,7 +22,12 @@ public class CrmBannerServiceImpl extends ServiceImpl<CrmBannerMapper, CrmBanner
 
     @Override
     public List<CrmBanner> selectAllBanner() {
-        List<CrmBanner> crmBanners = baseMapper.selectList(null);
+        // 根据id进行排序，显示排列后的前两条记录
+        QueryWrapper<CrmBanner> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("id");
+        //last方法，拼接sql语句
+        wrapper.last("limit 2");
+        List<CrmBanner> crmBanners = baseMapper.selectList(wrapper);
         return crmBanners;
     }
 }
