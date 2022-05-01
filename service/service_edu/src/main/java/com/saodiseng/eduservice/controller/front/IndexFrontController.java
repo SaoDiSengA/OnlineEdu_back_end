@@ -37,9 +37,9 @@ public class IndexFrontController {
 
         // 根据id进行排序，显示排列后的前两条记录
         QueryWrapper<EduTeacher> wrapper1 = new QueryWrapper<>();
-        wrapper.orderByDesc("id");
+        wrapper1.orderByDesc("id");
         //last方法，拼接sql语句
-        wrapper.last("limit 4");
+        wrapper1.last("limit 4");
         List<EduTeacher> eduTeacherslist = teacherService.list(wrapper1);
 
         return R.ok().data("eduCourseslist",eduCourseslist).data("eduTeacherslist",eduTeacherslist);
