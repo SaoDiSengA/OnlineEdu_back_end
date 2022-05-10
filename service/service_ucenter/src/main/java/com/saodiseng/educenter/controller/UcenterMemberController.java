@@ -3,6 +3,7 @@ package com.saodiseng.educenter.controller;
 
 import com.saodiseng.commonutils.R;
 import com.saodiseng.educenter.entity.UcenterMember;
+import com.saodiseng.educenter.entity.vo.RegisterVo;
 import com.saodiseng.educenter.service.UcenterMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,12 @@ public class UcenterMemberController {
         String token = memberService.login(member);
         return R.ok().data("token",token);
     }
+
     //注册
+    @PostMapping("register")
+    public R registerUser(@RequestBody RegisterVo registerVo){
+        memberService.register(registerVo);
+        return R.ok();
+    }
 }
 
