@@ -21,4 +21,32 @@
                  LEFT Outer join edu_subject es2 on ec.subject_id = es2.id
         WHERE ec.id = #{courseId}
     </select>
+
+    <!--    sql根据课程id查询课程基本信息-->
+    <select id="getBaseCourseInfo" parameterType="String"
+            resultType="com.saodiseng.eduservice.entity.frontVo.CourseWebVo">
+        SELECT ec.id,
+               ec.title,
+               ec.price,
+               ec.lesson_num as lessonNum,
+               ec.cover,
+               ec.buy_Count as buyCount,
+               ec.view_Count as viewCount,
+               ecd.description,
+               et.id as teacherId,
+               et.name as teacherName,
+               et.intro,
+               et.avatar,
+               es1.id as subjectLevelOneId,
+               es1.title as subjectLevelOne,
+               es2.id as subjectLevelTwoId,
+               es2.title as subjectLevelTwo
+        FROM edu_course ec
+                 LEFT Outer join edu_course_description ecd on ec.id = ecd.id
+                 LEFT Outer join edu_teacher et on ec.teacher_id = et.id
+                 LEFT Outer join edu_subject es1 on ec.subject_parent_id = es1.id
+                 LEFT Outer join edu_subject es2 on ec.subject_id = es2.id
+        WHERE ec.id = #{courseId}
+    </select>
+
 </mapper>

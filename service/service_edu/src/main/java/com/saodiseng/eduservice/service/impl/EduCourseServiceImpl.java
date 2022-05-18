@@ -6,6 +6,7 @@ import com.saodiseng.eduservice.entity.EduCourse;
 import com.saodiseng.eduservice.entity.EduCourseDescription;
 import com.saodiseng.eduservice.entity.EduTeacher;
 import com.saodiseng.eduservice.entity.frontVo.CourseFrontVo;
+import com.saodiseng.eduservice.entity.frontVo.CourseWebVo;
 import com.saodiseng.eduservice.entity.vo.CourseInfoVo;
 import com.saodiseng.eduservice.entity.vo.CoursePublishVo;
 import com.saodiseng.eduservice.mapper.EduCourseMapper;
@@ -163,5 +164,11 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         map.put("hasNext", hasNext);
         map.put("hasPrevious", hasPrevious);
         return map;
+    }
+
+    //根据课程id，查基本信息
+    @Override
+    public CourseWebVo getBaseCourseInfo(String courseId) {
+        return baseMapper.getBaseCourseInfo(courseId);
     }
 }
