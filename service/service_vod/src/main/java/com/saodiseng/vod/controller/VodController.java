@@ -2,6 +2,8 @@ package com.saodiseng.vod.controller;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.saodiseng.commonutils.R;
 import com.saodiseng.servicebase.exceptionhandler.GuliException;
 import com.saodiseng.vod.service.VodService;
@@ -54,4 +56,22 @@ public class VodController {
         return R.ok();
     }
 
+    //根据视频id获取视频凭证
+    @GetMapping("getPlayAuth/{id}")
+    public R getPlayAuth(@PathVariable String id){
+        try {
+            //创建初始化对象
+            DefaultAcsClient client = InitVodClient.initVodClient(ConstantVodUtils.KEYID, ConstantVodUtils.KEYSECRET);
+            //创建获取凭证的request与response对象
+            GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+            //设置id
+            request.setVideoId(id);
+            //调用方法获取到凭证
+            GetVideoPlayAuthResponse response = client.getAcsResponse(request);
+            String playAuth = response.getPlayAuth();
+            return R.ok().data("playAuth", playAuth);
+        }catch (Exception e){
+            throw new GuliException(20001, "获取凭证失败");
+        }
+    }
 }
