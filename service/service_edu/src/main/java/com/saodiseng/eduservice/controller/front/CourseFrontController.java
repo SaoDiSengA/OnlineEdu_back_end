@@ -2,6 +2,7 @@ package com.saodiseng.eduservice.controller.front;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.saodiseng.commonutils.R;
+import com.saodiseng.commonutils.ordervo.CourseWebVoOrder;
 import com.saodiseng.eduservice.entity.EduCourse;
 import com.saodiseng.eduservice.entity.EduTeacher;
 import com.saodiseng.eduservice.entity.chapter.ChapterVo;
@@ -9,6 +10,7 @@ import com.saodiseng.eduservice.entity.frontVo.CourseFrontVo;
 import com.saodiseng.eduservice.entity.frontVo.CourseWebVo;
 import com.saodiseng.eduservice.service.EduChapterService;
 import com.saodiseng.eduservice.service.EduCourseService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +42,14 @@ public class CourseFrontController {
         //根据id查章节小节 ，之前写过 直接注入调用即可
         List<ChapterVo> chapterVideoList = chapterService.getChapterVideoByCourseId(courseId);
         return R.ok().data("courseWebVo",courseWebVo).data("chapterVideoList",chapterVideoList);
+    }
+
+    //根据课程id查询课程信息
+    @PostMapping("getCourseInfoOrder/{id}")
+    public CourseWebVoOrder getCourseInfoOrder(@PathVariable String id){
+        CourseWebVo baseCourseInfo = courseService.getBaseCourseInfo(id);
+        CourseWebVoOrder courseWebVoOrder = new CourseWebVoOrder();
+        BeanUtils.copyProperties(baseCourseInfo,courseWebVoOrder);
+        return courseWebVoOrder;
     }
 }
