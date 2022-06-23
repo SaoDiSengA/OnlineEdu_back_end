@@ -3,9 +3,11 @@ package com.saodiseng.educenter.controller;
 
 import com.saodiseng.commonutils.JwtUtils;
 import com.saodiseng.commonutils.R;
+import com.saodiseng.commonutils.ordervo.UcenterMemberOrder;
 import com.saodiseng.educenter.entity.UcenterMember;
 import com.saodiseng.educenter.entity.vo.RegisterVo;
 import com.saodiseng.educenter.service.UcenterMemberService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +53,16 @@ public class UcenterMemberController {
         //根据id获取信息
         UcenterMember member = memberService.getById(memberId);
         return R.ok().data("userInfo",member);
+    }
+
+    //根据用户id获取用户信息
+    @PostMapping("getUserInfoOrder/{id}")
+    public UcenterMemberOrder getUserInfoOrder(@PathVariable String id){
+        UcenterMember member = memberService.getById(id);
+        UcenterMemberOrder ucenterMemberOrder = new UcenterMemberOrder();
+        //把member对象的值给UcenterMemberOrder
+        BeanUtils.copyProperties(member,ucenterMemberOrder);
+        return ucenterMemberOrder;
     }
 }
 
