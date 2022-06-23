@@ -1,8 +1,10 @@
 package com.saodiseng.eduorder.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.saodiseng.commonutils.JwtUtils;
 import com.saodiseng.commonutils.R;
+import com.saodiseng.eduorder.entity.TOrder;
 import com.saodiseng.eduorder.service.TOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,13 @@ public class TOrderController {
         return R.ok().data("orderId",orderNo);
     }
     //根据订单id查询订单信息
+    @GetMapping("getOrderInfo/{orderId}")
+    public R getOrderInfo(@PathVariable String orderId){
+        QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("order_no",orderId);
+        TOrder tOrder = orderService.getOne(queryWrapper);
+        return R.ok().data("item",tOrder);
+    }
 
     //生成微信二维码
 
