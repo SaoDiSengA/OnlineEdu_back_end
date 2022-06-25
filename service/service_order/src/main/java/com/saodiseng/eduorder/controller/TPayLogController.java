@@ -1,9 +1,12 @@
 package com.saodiseng.eduorder.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.saodiseng.commonutils.R;
+import com.saodiseng.eduorder.service.TPayLogService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.Map;
 
 /**
  * <p>
@@ -14,8 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-23
  */
 @RestController
-@RequestMapping("/eduorder/t-pay-log")
+@RequestMapping("/eduorder/paylog")
+@CrossOrigin
 public class TPayLogController {
-
+    @Autowired
+    private TPayLogService payLogService;
+    //生成微信支付二维码接口
+    //参数是订单号
+    @GetMapping("createNativeQRCode/{orderNo}")
+    public R createNativeQRCode(@PathVariable String orderNo){
+        //返回信息，包含二维码地址，还有其他信息
+        Map<String, Object> map = payLogService.createNativeQRCode(orderNo);
+        return R.ok().data(map);
+    }
 }
 
