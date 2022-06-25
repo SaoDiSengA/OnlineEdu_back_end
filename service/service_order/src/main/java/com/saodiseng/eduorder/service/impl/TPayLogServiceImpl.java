@@ -72,4 +72,36 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
             throw new GuliException(20001,"生成二维码失败");
         }
     }
+
+    @Override
+    public Map<String, String> queryPayStatus(String orderNo) {
+        try {
+            //1、封装参数
+            Map<String, String> m = new HashMap<>();
+            m.put("appid", "wx74862e0dfcf69954");
+            m.put("mch_id", "1558950191");
+            m.put("out_trade_no", orderNo);
+            m.put("nonce_str", WXPayUtil.generateNonceStr());
+
+            //2、设置请求
+            HttpClient client = new HttpClient("https://api.mch.weixin.qq.com/pay/orderquery");
+            client.setXmlParam(WXPayUtil.generateSignedXml(m, "T6m9iK73b0kn9g5v426MKfHQH7X8rKwb"));
+            client.setHttps(true);
+            client.post();
+            //3、返回第三方的数据
+            String xml = client.getContent();
+            Map<String, String> resultMap = WXPayUtil.xmlToMap(xml);
+            //6、转成Map
+            //7、返回
+            return resultMap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void updateOrderStatus(Map<String, String> map) {
+
+    }
 }

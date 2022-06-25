@@ -5,6 +5,7 @@ import com.saodiseng.commonutils.R;
 import com.saodiseng.eduorder.service.TPayLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.service.ApiListing;
 
 import java.util.Map;
 
@@ -29,6 +30,23 @@ public class TPayLogController {
         //返回信息，包含二维码地址，还有其他信息
         Map<String, Object> map = payLogService.createNativeQRCode(orderNo);
         return R.ok().data(map);
+    }
+
+    //查询订单支付状态接口
+    //参数是订单号，根据订单号查询支付状态
+    @GetMapping("queryPayStatus/{orderNo}")
+    public R queryPayStatus(@PathVariable String orderNo){
+        Map<String, String> map = payLogService.queryPayStatus(orderNo);
+        if (map == null){
+            return R.error().message("支付出错");
+        }
+        //如果map不为空，通过map，获取订单状态
+        if (map.get("trade_state").equals("SUCCESS")){
+            //添加记录到支付表里，更新订单表订单状态
+            payLogService.updateOrderStatus(map);
+            return R.ok().message("支付成功");
+        }
+        return R.ok().message("支付中");
     }
 }
 
