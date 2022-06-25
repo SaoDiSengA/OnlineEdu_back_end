@@ -29,6 +29,7 @@ public class TPayLogController {
     public R createNativeQRCode(@PathVariable String orderNo){
         //返回信息，包含二维码地址，还有其他信息
         Map<String, Object> map = payLogService.createNativeQRCode(orderNo);
+        System.out.println("============返回二维码的map集合：" + map);
         return R.ok().data(map);
     }
 
@@ -37,6 +38,7 @@ public class TPayLogController {
     @GetMapping("queryPayStatus/{orderNo}")
     public R queryPayStatus(@PathVariable String orderNo){
         Map<String, String> map = payLogService.queryPayStatus(orderNo);
+        System.out.println("============查询订单状态的map集合：" + map);
         if (map == null){
             return R.error().message("支付出错");
         }

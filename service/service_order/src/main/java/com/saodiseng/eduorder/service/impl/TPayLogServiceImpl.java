@@ -1,5 +1,6 @@
 package com.saodiseng.eduorder.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.saodiseng.eduorder.entity.TOrder;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -102,6 +104,27 @@ public class TPayLogServiceImpl extends ServiceImpl<TPayLogMapper, TPayLog> impl
 
     @Override
     public void updateOrderStatus(Map<String, String> map) {
-
+        //从map中获取订单号
+        String orderNo = map.get("out_trade_no");
+        //根据订单号查订单信息
+        QueryWrapper<TOrder> wrapper = new QueryWrapper<>();
+        wrapper.eq("order_no",orderNo);
+        TOrder order = orderService.getOne(wrapper);
+        //更新订单表中的状态
+        if (order.getStatus().intValue() == 1) {
+            return;
+        }
+        order.setStatus(1);
+        orderService.updateById(order);
+        //添加支付记录，支付记录表
+        TPayLog payLog = new TPayLog();
+        payLog.setOrderNo(orderNo);
+        payLog.setPayTime(new Date());
+        payLog.setPayType(1);//支付类型微信
+        payLog.setTotalFee(order.getTotalFee());//总金额(分)
+        payLog.setTradeState(map.get("trade_state"));//支付状态
+        payLog.setTransactionId(map.get("transaction_id"));  //流水号
+        payLog.setAttr(JSONObject.toJSONString(map));
+        baseMapper.insert(payLog);
     }
 }
