@@ -48,7 +48,7 @@ public class TPayLogController {
             payLogService.updateOrderStatus(map);
             return R.ok().message("支付成功");
         }
-        return R.ok().message("支付中");
+        return R.ok().code(25000).message("支付中");
     }
 }
 
