@@ -13,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface StatisticsDailyService extends IService<StatisticsDaily> {
 
+    //统计某一天的注册人数,生成统计数据
+    void registerCount(String day);
 }

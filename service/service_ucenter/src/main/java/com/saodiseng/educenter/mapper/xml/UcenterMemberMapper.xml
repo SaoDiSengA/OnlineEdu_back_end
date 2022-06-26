@@ -2,4 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.saodiseng.educenter.mapper.UcenterMemberMapper">
 
+    <!--//查询某一天的注册人数-->
+    <select id="countRegister" resultType="java.lang.Integer">
+        select count(*) from ucenter_member uc
+        where date(uc.gmt_create) = #{day}  <!--只有一个参数时，名字无所谓，多个参数时可以用使用下标01234取对应的参数。或者使用@Param注解给参数取个别名-->
+    </select>
 </mapper>
