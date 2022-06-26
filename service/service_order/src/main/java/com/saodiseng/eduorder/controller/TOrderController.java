@@ -41,7 +41,18 @@ public class TOrderController {
         return R.ok().data("item",tOrder);
     }
 
-    //生成微信二维码
-
-    //查询订单支付状态接口
+    //根据课程id用户id查询订单中的订单状态
+    @GetMapping("isBuyCourse/{courseId}/{memberId}")
+    public boolean isBuyCourse(@PathVariable String courseId,@PathVariable String memberId){
+        QueryWrapper<TOrder> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("course_id",courseId);
+        queryWrapper.eq("member_id",memberId);
+        queryWrapper.eq("status",1);
+        int count = orderService.count(queryWrapper);//count就是上述条件能否查出数据
+        if (count>0){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
