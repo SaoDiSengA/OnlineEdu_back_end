@@ -11,6 +11,11 @@ import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 网站统计日数据 服务实现类
@@ -45,5 +50,47 @@ public class StatisticsDailyServiceImpl extends ServiceImpl<StatisticsDailyMappe
         sta.setVideoViewNum(videoViewNum);
         sta.setCourseNum(courseNum);
         baseMapper.insert(sta);
+    }
+
+    //图表显示，返回两部分数据，日期json数组，数量json数组
+    @Override
+    public Map<String, Object> showData(String type, String begin, String end) {
+        //根据条件查询对应数据
+        QueryWrapper<StatisticsDaily> wrapper = new QueryWrapper<>();
+        wrapper.between("date_calculated",begin,end);
+        wrapper.select("date_calculated",type);
+        List<StatisticsDaily> staList = baseMapper.selectList(wrapper);
+        //因为返回的有两部分：日期和数量
+        //前端要求数组json结构，对应后端java代码是list集合
+        //创建两个list集合，一个日期，一个数量
+        List<String> date_calculatedList = new ArrayList<>();
+        List<Integer> numDataList = new ArrayList<>();
+        //遍历查询到的list集合，进行分钟
+        for (int i = 0; i < staList.size(); i++) {
+            StatisticsDaily daily = staList.get(i);
+            //封装日期list集合
+            date_calculatedList.add(daily.getDateCalculated());
+            //封装数量
+            switch (type){
+                case "login_num":
+                    numDataList.add(daily.getLoginNum());
+                    break;
+                case "register_num":
+                    numDataList.add(daily.getRegisterNum());
+                    break;
+                case "video_view_num":
+                    numDataList.add(daily.getVideoViewNum());
+                    break;
+                case "course_num":
+                    numDataList.add(daily.getCourseNum());
+                    break;
+                default:
+                    break;
+            }
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("date_calculatedList",date_calculatedList);
+        map.put("numDataList",numDataList);
+        return map;
     }
 }
