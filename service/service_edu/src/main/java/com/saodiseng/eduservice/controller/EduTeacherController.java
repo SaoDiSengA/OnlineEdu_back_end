@@ -31,7 +31,6 @@ import java.util.Map;
 @Api(tags="讲师管理")
 @RestController
 @RequestMapping("/eduservice/teacher")
-@CrossOrigin//RestController 作用一个是交给springboot进行管理，一个是能够返回JSON数据
 public class EduTeacherController {
 
     //访问地址   http://localhost:8001/eduservice/teacher/findAll     RequestMapping

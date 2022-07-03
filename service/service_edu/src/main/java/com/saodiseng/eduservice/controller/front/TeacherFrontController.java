@@ -15,7 +15,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/eduservice/teacherfront")
-@CrossOrigin//RestController 作用一个是交给springboot进行管理，一个是能够返回JSON数据
 public class TeacherFrontController {
     @Autowired
     private EduTeacherService teacherService;

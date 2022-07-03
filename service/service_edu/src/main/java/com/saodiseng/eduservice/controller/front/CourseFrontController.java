@@ -22,7 +22,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/eduservice/coursefront")
-@CrossOrigin//RestController 作用一个是交给springboot进行管理，一个是能够返回JSON数据
+//@CrossOrigin//RestController 作用一个是交给springboot进行管理，一个是能够返回JSON数据
 public class CourseFrontController {
     @Autowired
     private EduCourseService courseService;
