@@ -275,7 +275,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         //查询菜单里面子菜单id
         QueryWrapper<Permission>  wrapper = new QueryWrapper<>();
         wrapper.eq("pid",id);
-        wrapper.select("id");
+        wrapper.select("id"); //只要id这一列的数据
         List<Permission> childIdList = baseMapper.selectList(wrapper);
         //把childIdList里面菜单id值获取出来，封装idList里面，做递归查询
         childIdList.stream().forEach(item -> {
