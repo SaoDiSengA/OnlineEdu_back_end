@@ -1,7 +1,7 @@
 package com.saodiseng.aclservice.mapper;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import  com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.saodiseng.aclservice.entity.Role;
 
 /**

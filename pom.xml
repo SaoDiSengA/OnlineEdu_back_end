@@ -5,7 +5,6 @@
 	<modules>
 		<module>service</module>
         <module>common</module>
-		<module>service/service_oss</module>
         <module>canal_clientedu</module>
         <module>infrastructure</module>
     </modules>
@@ -202,21 +201,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+
 
 </project>
